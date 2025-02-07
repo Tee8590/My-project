@@ -7,7 +7,7 @@ public class Push : MonoBehaviour
     public GameObject pushReady = null;
     public List<Transform> items = new List<Transform>();
     private int layerMask = 0;
-
+  /*  public Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();*/
     public void Start()
     {
         layerMask = ~LayerMask.GetMask("ground", "player");
@@ -47,18 +47,21 @@ public class Push : MonoBehaviour
         float duration = 2f; // Time taken to move objects
         float elapsedTime = 0f;
 
-        Dictionary<Transform, Vector3> startPositions = new Dictionary<Transform, Vector3>();
-        Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();
+        Vector3[] startPositions = new Vector3[items.Count]; // Store start positions
+        Vector3[] targetPositions = new Vector3[items.Count];
 
-        foreach (Transform item in items)
+        for (int i =0; i<items.Count;i++)
         {
-            if (item != null)
+            if (i != null)
             {
-                startPositions[item] = item.position;
-                targetPositions[item] = new Vector3(
-                    pushReady.transform.position.x,
+                startPositions[i] = items[i].position;
+                targetPositions[i] = new Vector3(
+                    items[i].position.x,
+                    items[i].position.y+5,
+                    items[i].position.z
+                   /* pushReady.transform.position.x,
                     pushReady.transform.position.y ,
-                    pushReady.transform.position.z
+                    pushReady.transform.position.z*/
                 );
             }
         }
@@ -68,22 +71,22 @@ public class Push : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
 
-            foreach (Transform item in items)
+            for(int i =0;i <items.Count;i++)
             {
-                if (item != null)
+                if (i != null)
                 {
-                    item.position = Vector3.Lerp(startPositions[item], targetPositions[item], t);
+                    items[i].position = Vector3.Lerp(startPositions[i], targetPositions[i], t);
                 }
             }
 
             yield return null;
         }
 
-        foreach (Transform item in items)
+        for(int i =0;i< items.Count; i++)
         {
-            if (item != null)
+            if (i != null)
             {
-                item.position = targetPositions[item]; // Ensure final position is exact
+                items[i].position = targetPositions[i]; // Ensure final position is exact
             }
         }
     }
@@ -103,6 +106,10 @@ public class Push : MonoBehaviour
                 }
             }
         }
+    }
+    public void ClearObj()
+    {
+      /*  targetPositions.Clear();*/
     }
 
 }
