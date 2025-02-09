@@ -9,6 +9,7 @@ public class Push : MonoBehaviour
     private int layerMask = 0;
 
     Dictionary<Transform, Vector3> startPositions;
+    Dictionary<Transform, Vector3> targetPositions;
     public void Start()
     {
         layerMask = ~LayerMask.GetMask("ground", "player");
@@ -46,24 +47,24 @@ public class Push : MonoBehaviour
 
     private IEnumerator SmoothRase()
     {
-        float duration = 2f; // Time taken to move objects
+        float duration = 1.5f; // Time taken to move objects
         float elapsedTime = 0f;
 
           startPositions = new Dictionary<Transform, Vector3>();
-        Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();
+         targetPositions = new Dictionary<Transform, Vector3>();
 
         foreach (Transform item in items)
         {
-            if (item != null )
+            if (item != null)
             {
                 startPositions[item] = item.position;
                 targetPositions[item] = new Vector3(
-                    /*  item.position.x,
+                      item.position.x,
                      pushReady.transform.position.y,
-                      item.position.z*/
-                    pushReady.transform.position.x,
+                      item.position.z
+                   /* pushReady.transform.position.x,
                     pushReady.transform.position.y,
-                    pushReady.transform.position.z
+                    pushReady.transform.position.z*/
                 );
             }
         }
@@ -75,7 +76,7 @@ public class Push : MonoBehaviour
 
             foreach (Transform item in items)
             {
-                if (item != null && startPositions.ContainsKey(item) && targetPositions.ContainsKey(item))
+                if (item != null)
                 {
                     item.position = Vector3.Lerp(startPositions[item], targetPositions[item], t);
                 }
@@ -91,25 +92,29 @@ public class Push : MonoBehaviour
                 item.position = targetPositions[item]; // Ensure final position is exact
             }
         }
+        items.Clear();
     }
     public void ApplyForwardImpulse(float forceAmount)
     {
-        foreach (Transform item in items)
+        if(startPositions==null) return;
+        List<Transform> toRemove = new List<Transform> ();
+
+        foreach (Transform item in startPositions.Keys)
         {
             if (item != null)
             {
 
-                Rigidbody rb = item.GetComponent<Rigidbody>(); // Get Rigidbody component
+                Rigidbody rb = item.GetComponent<Rigidbody>();// Get Rigidbody component
 
                 if (rb != null)
                 {
                     Vector3 pushDirection = Vector3.forward;   /*Vector3 pushDirection = (item.position - pushReady.transform.position).normalized;*/ // Direction away from pushReady
                     rb.AddForce(pushDirection * forceAmount, ForceMode.Impulse); // Apply impulse force
-                   
+                    toRemove.Add(item);
                 }
             }
         }
-
+       
     }
 
 }
