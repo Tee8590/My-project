@@ -7,7 +7,8 @@ public class Push : MonoBehaviour
     public GameObject pushReady = null;
     public List<Transform> items = new List<Transform>();
     private int layerMask = 0;
-  /*  public Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();*/
+
+    Dictionary<Transform, Vector3> startPositions;
     public void Start()
     {
         layerMask = ~LayerMask.GetMask("ground", "player");
@@ -42,26 +43,27 @@ public class Push : MonoBehaviour
         }
     }
 
+
     private IEnumerator SmoothRase()
     {
         float duration = 2f; // Time taken to move objects
         float elapsedTime = 0f;
 
-        Vector3[] startPositions = new Vector3[items.Count]; // Store start positions
-        Vector3[] targetPositions = new Vector3[items.Count];
+          startPositions = new Dictionary<Transform, Vector3>();
+        Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();
 
-        for (int i =0; i<items.Count;i++)
+        foreach (Transform item in items)
         {
-            if (i != null)
+            if (item != null )
             {
-                startPositions[i] = items[i].position;
-                targetPositions[i] = new Vector3(
-                    items[i].position.x,
-                    items[i].position.y+5,
-                    items[i].position.z
-                   /* pushReady.transform.position.x,
-                    pushReady.transform.position.y ,
-                    pushReady.transform.position.z*/
+                startPositions[item] = item.position;
+                targetPositions[item] = new Vector3(
+                    /*  item.position.x,
+                     pushReady.transform.position.y,
+                      item.position.z*/
+                    pushReady.transform.position.x,
+                    pushReady.transform.position.y,
+                    pushReady.transform.position.z
                 );
             }
         }
@@ -71,22 +73,22 @@ public class Push : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
 
-            for(int i =0;i <items.Count;i++)
+            foreach (Transform item in items)
             {
-                if (i != null)
+                if (item != null && startPositions.ContainsKey(item) && targetPositions.ContainsKey(item))
                 {
-                    items[i].position = Vector3.Lerp(startPositions[i], targetPositions[i], t);
+                    item.position = Vector3.Lerp(startPositions[item], targetPositions[item], t);
                 }
             }
 
             yield return null;
         }
 
-        for(int i =0;i< items.Count; i++)
+        foreach (Transform item in items)
         {
-            if (i != null)
+            if (item != null)
             {
-                items[i].position = targetPositions[i]; // Ensure final position is exact
+                item.position = targetPositions[item]; // Ensure final position is exact
             }
         }
     }
@@ -103,13 +105,11 @@ public class Push : MonoBehaviour
                 {
                     Vector3 pushDirection = Vector3.forward;   /*Vector3 pushDirection = (item.position - pushReady.transform.position).normalized;*/ // Direction away from pushReady
                     rb.AddForce(pushDirection * forceAmount, ForceMode.Impulse); // Apply impulse force
+                   
                 }
             }
         }
-    }
-    public void ClearObj()
-    {
-      /*  targetPositions.Clear();*/
+
     }
 
 }
