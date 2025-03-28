@@ -13,7 +13,8 @@ public class ForceField : MonoBehaviour
     private int numColliders;
 
     private float elapsTime = 0f;
-    private int duriation = 5;
+    private int duriation = 10;
+    private float t = 0;
     void Start()
     {
         
@@ -38,7 +39,7 @@ public class ForceField : MonoBehaviour
 
                 //Debug.Log(hitColliders[i]);
                 StartCoroutine(ApplayRaiseF(i));
-                ApplayRaiseF(i);
+               
             }
         }
     }
@@ -51,18 +52,20 @@ public class ForceField : MonoBehaviour
                 while (elapsTime < duriation)
                 {
                     elapsTime += Time.deltaTime;
-                    float t = elapsTime / duriation;
+                    t = elapsTime / duriation;
 
                     for (int j = 0; j < numColliders; j++)
                     {
                         Vector3 objPos = hitColliders[j].gameObject.transform.position;
                         
-                        Vector3 endPos = new Vector3(hitColliders[j].gameObject.transform.position.x, (hitColliders[j].gameObject.transform.position.y + 2), hitColliders[j].gameObject.transform.position.z);
+                        Vector3 endPos = new Vector3(hitColliders[j].gameObject.transform.position.x,
+                                               (hitColliders[j].gameObject.transform.position.y + 0.1f),
+                                                hitColliders[j].gameObject.transform.position.z);
                         Vector3 forceUp = Vector3.Lerp(objPos, endPos, t);
                         
                         hitColliders[j].gameObject.transform.position = forceUp;
                     }
-                    yield return null;
+                    yield return new WaitForSeconds(1f);
 
                 }
             

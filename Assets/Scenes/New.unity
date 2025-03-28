@@ -1306,8 +1306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  gravity: -9.81
-  jumpHeight: 1
+  gravity: -15
+  jumpHeight: 4
 --- !u!33 &1327468778610943618
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1325,7 +1325,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1157305065122078309}
-  - component: {fileID: 4526003690227590772}
   - component: {fileID: 4526003690227590773}
   m_Layer: 6
   m_Name: Push
@@ -1788,27 +1787,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2131328518}
   m_SourcePrefab: {fileID: 100100000, guid: 179f5856ad10c4742ba3e199eb4e7453, type: 3}
---- !u!135 &4526003690227590772
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557623966878306335}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.5619152
-  m_Center: {x: 0, y: -0.74412966, z: 0.41858602}
 --- !u!114 &4526003690227590773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2421,7 +2399,7 @@ Transform:
   m_GameObject: {fileID: 7053168828939041571}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13026144, y: -0.01615193, z: 0.02475567, w: 0.991039}
-  m_LocalPosition: {x: -0.97, y: 3.7, z: -5.32}
+  m_LocalPosition: {x: -0.97, y: 3.7, z: -6.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
