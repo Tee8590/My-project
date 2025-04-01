@@ -43,6 +43,7 @@ public class Push : MonoBehaviour
          {
             animations.H2Anim();
             ApplyForwardImpulse(5);
+            ClearObjs();
          }
         else
         {
@@ -111,7 +112,7 @@ public class Push : MonoBehaviour
                 item.position = targetPositions[item]; // Ensure final position is exact
             }
         }
-        items.Clear();
+        
     }
     public void ApplyForwardImpulse(float forceAmount)
     {
@@ -134,6 +135,10 @@ public class Push : MonoBehaviour
             }
         }
        
+    }
+    public void ClearObjs()
+    {
+        items.Clear();
     }
 
 }
