@@ -10,16 +10,18 @@ public class Movement : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
-
+    public Camera cam = null;
+    private Vector3 camForward;
+    public float rotationSpeed = 10f;
     void Start()
     {
         controller = GetComponent<CharacterController>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         isGrounded = controller.isGrounded;
-
+        RotateTowardsCamera();
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f; 
@@ -38,5 +40,16 @@ public class Movement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+    void RotateTowardsCamera()
+    {
+        if (cam != null )
+        {
+            camForward = cam.transform.forward;
+            /*camForward.y += camForward.y;*/
+            Quaternion targetRotation = Quaternion.LookRotation(camForward);
+            Quaternion playerRotation = controller.transform.rotation;
+            controller.transform.rotation = Quaternion.Slerp(playerRotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 }

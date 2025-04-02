@@ -9,18 +9,11 @@ public class Push : MonoBehaviour
     private int layerMask = 0;
     public Animations animations;
 
-    private float duration = 1.5f;
-    private float elapsedTime = 0f;
     Dictionary<Transform, Vector3> startPositions;
     Dictionary<Transform, Vector3> targetPositions;
     public void Start()
     {
         layerMask = ~LayerMask.GetMask("ground", "player");
-        //animations = GetComponent<Animations>();
-        //Debug.Assert(animations != null);
-        
-        startPositions = new Dictionary<Transform, Vector3>();
-        targetPositions = new Dictionary<Transform, Vector3>();
     }
 
     private void FixedUpdate()
@@ -32,7 +25,7 @@ public class Push : MonoBehaviour
         if (Input.GetKey(KeyCode.R))
         {
             animations.H1Anim();
-            StartCoroutine(SmoothRase()); 
+            StartCoroutine(SmoothRase());
         }
         else
         {
@@ -40,11 +33,11 @@ public class Push : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.T))
-         {
+        {
             animations.H2Anim();
             ApplyForwardImpulse(5);
-            ClearObjs();
-         }
+
+        }
         else
         {
             animations.IdleAnim();
@@ -70,6 +63,11 @@ public class Push : MonoBehaviour
 
     private IEnumerator SmoothRase()
     {
+        float duration = 1.5f; // Time taken to move objects
+        float elapsedTime = 0f;
+
+        startPositions = new Dictionary<Transform, Vector3>();
+        targetPositions = new Dictionary<Transform, Vector3>();
 
         foreach (Transform item in items)
         {
@@ -77,12 +75,12 @@ public class Push : MonoBehaviour
             {
                 startPositions[item] = item.position;
                 targetPositions[item] = new Vector3(
-                      item.position.x  ,
+                      item.position.x,
                      pushReady.transform.position.y,
                       item.position.z
-                 /* pushReady.transform.position.x,
-                    pushReady.transform.position.y,
-                    pushReady.transform.position.z*/
+                /* pushReady.transform.position.x,
+                 pushReady.transform.position.y,
+                 pushReady.transform.position.z*/
                 );
             }
         }
@@ -92,10 +90,8 @@ public class Push : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
 
-            for(int i = 0; i<items.Count; i++) 
+            foreach (Transform item in items)
             {
-                Transform item = items[i];
-
                 if (item != null)
                 {
                     item.position = Vector3.Lerp(startPositions[item], targetPositions[item], t);
@@ -112,12 +108,12 @@ public class Push : MonoBehaviour
                 item.position = targetPositions[item]; // Ensure final position is exact
             }
         }
-        
+        items.Clear();
     }
     public void ApplyForwardImpulse(float forceAmount)
     {
-        if(startPositions==null) return;
-        List<Transform> toRemove = new List<Transform> ();
+        if (startPositions == null) return;
+        List<Transform> toRemove = new List<Transform>();
 
         foreach (Transform item in startPositions.Keys)
         {
@@ -128,17 +124,13 @@ public class Push : MonoBehaviour
 
                 if (rb != null)
                 {
-                    Vector3 pushDirection = Vector3.forward;   /*Vector3 pushDirection = (item.position - pushReady.transform.position).normalized;*/ // Direction away from pushReady
+                    Vector3 pushDirection =  gameObject.transform.forward ;   /*Vector3 pushDirection = (item.position - pushReady.transform.position).normalized;*/ // Direction away from pushReady
                     rb.AddForce(pushDirection * forceAmount, ForceMode.Impulse); // Apply impulse force
                     toRemove.Add(item);
                 }
             }
         }
-       
-    }
-    public void ClearObjs()
-    {
-        items.Clear();
+
     }
 
 }
