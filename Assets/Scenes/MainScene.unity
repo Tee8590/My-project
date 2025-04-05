@@ -2499,7 +2499,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25339293, y: -0.007878886, z: 0.0020638825, w: 0.96732914}
+  m_LocalRotation: {x: 0.25340018, y: -0.002921426, z: 0.00076527055, w: 0.96735686}
   m_LocalPosition: {x: 0, y: 2.27, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5589,7 +5589,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868927188}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2533929, y: -0.007878886, z: 0.0020638825, w: 0.9673292}
+  m_LocalRotation: {x: 0.25340015, y: -0.0029214255, z: 0.00076527055, w: 0.96735686}
   m_LocalPosition: {x: 0, y: 2.27, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8786,6 +8786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6515712192711687499}
+  - component: {fileID: 6515712192711687500}
   m_Layer: 6
   m_Name: mixamorig:Neck
   m_TagString: Untagged
@@ -10108,6 +10109,21 @@ Transform:
   - {fileID: 5901452234384888881}
   m_Father: {fileID: 366175169257304374}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6515712192711687500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4028323153542255649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e848462ed2e994bb51a7c5699a0d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 963194227}
+  rotationSpeed: 10
+  controller: {fileID: 5866666020622212298}
 --- !u!4 &6629111071061405958
 Transform:
   m_ObjectHideFlags: 0
