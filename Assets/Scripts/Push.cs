@@ -81,14 +81,8 @@ public class Push : MonoBehaviour
                      Random.Range(pushReady.transform.position.x, pushReady.transform.position.x + 2f),
                      Random.Range(pushReady.transform.position.y, pushReady.transform.position.y + 2f),
                      Random.Range(pushReady.transform.position.z, pushReady.transform.position.z + 2f));
-                   /* new Vector3(
-                 item.position.x,
-                pushReady.transform.position.y,
-                 item.position.z
-                pushReady.transform.position.x,
-                pushReady.transform.position.y,
-                pushReady.transform.position.z
-                );*/
+                   /* new Vector3(item.position.x,pushReady.transform.position.y,item.position.z
+                    * pushReady.transform.position.x,pushReady.transform.position.y,pushReady.transform.position.z);*/
             }
         }
 
@@ -99,7 +93,7 @@ public class Push : MonoBehaviour
 
             foreach (Transform item in itemsSnapshot)
             {
-                if (item != null)
+                if (item != null && startPositions.ContainsKey(item))
                 {
                     item.position = Vector3.Lerp(startPositions[item], targetPositions[item], t);
                 }
@@ -108,8 +102,10 @@ public class Push : MonoBehaviour
             yield return null;
         }
 
-        foreach (Transform item in itemsSnapshot)
+        foreach (var key  in targetPositions)
         {
+            Transform item = key.Key;
+            
             if (item != null)
             {
                 item.position = targetPositions[item]; // Ensure final position is exact
