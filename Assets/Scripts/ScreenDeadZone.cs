@@ -1,8 +1,8 @@
 using UnityEngine;
-
+using System;
 namespace DesignPatterns.Utilities
 {
-    [System.Serializable]
+    [Serializable]
     public struct ScreenDeadZone
     {
         [Tooltip("Dead zone as a percentage of screen size (xMin, yMin, width, height)")]

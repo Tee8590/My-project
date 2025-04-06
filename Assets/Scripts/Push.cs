@@ -8,7 +8,7 @@ public class Push : MonoBehaviour
     public List<Transform> items = new List<Transform>();
     private int layerMask = 0;
     public Animations animations;
-
+    public GameObject pushDirection;
     Dictionary<Transform, Vector3> startPositions;
     Dictionary<Transform, Vector3> targetPositions;
     public void Start()
@@ -68,20 +68,27 @@ public class Push : MonoBehaviour
 
         startPositions = new Dictionary<Transform, Vector3>();
         targetPositions = new Dictionary<Transform, Vector3>();
+        // Create a local copy of items to prevent modification during iteration
+        List<Transform> itemsSnapshot = new List<Transform>(items);
 
-        foreach (Transform item in items)
+        foreach (Transform item in itemsSnapshot)
         {
+            
             if (item != null)
             {
                 startPositions[item] = item.position;
                 targetPositions[item] = new Vector3(
-                      item.position.x,
-                     pushReady.transform.position.y,
-                      item.position.z
-                /* pushReady.transform.position.x,
-                 pushReady.transform.position.y,
-                 pushReady.transform.position.z*/
-                );
+                     Random.Range(pushReady.transform.position.x, pushReady.transform.position.x + 2f),
+                     Random.Range(pushReady.transform.position.y, pushReady.transform.position.y + 2f),
+                     Random.Range(pushReady.transform.position.z, pushReady.transform.position.z + 2f));
+                   /* new Vector3(
+                 item.position.x,
+                pushReady.transform.position.y,
+                 item.position.z
+                pushReady.transform.position.x,
+                pushReady.transform.position.y,
+                pushReady.transform.position.z
+                );*/
             }
         }
 
@@ -90,7 +97,7 @@ public class Push : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
 
-            foreach (Transform item in items)
+            foreach (Transform item in itemsSnapshot)
             {
                 if (item != null)
                 {
@@ -101,7 +108,7 @@ public class Push : MonoBehaviour
             yield return null;
         }
 
-        foreach (Transform item in items)
+        foreach (Transform item in itemsSnapshot)
         {
             if (item != null)
             {
@@ -124,8 +131,8 @@ public class Push : MonoBehaviour
 
                 if (rb != null)
                 {
-                    Vector3 pushDirection =  gameObject.transform.forward ;   /*Vector3 pushDirection = (item.position - pushReady.transform.position).normalized;*/ // Direction away from pushReady
-                    rb.AddForce(pushDirection * forceAmount, ForceMode.Impulse); // Apply impulse force
+                    Vector3 direction = pushDirection.transform.position ;  /*Vector3 pushDirection = (item.position - pushReady.transform.position).normalized;*/ // Direction away from pushReady
+                    rb.AddForce((direction + Vector3.forward ) * forceAmount* Time.deltaTime, ForceMode.Impulse); // Apply impulse force
                     toRemove.Add(item);
                 }
             }
